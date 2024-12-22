@@ -25,9 +25,9 @@ void triBulleMat(char mat[][20], int n){
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             nbComp++;
-            //comparrer les strings
+            //comparrer les strings adjacents
             if (strcmp(mat[j], mat[j + 1]) > 0) {
-                //l'echange des deaux lignes
+                //l'echange des deaux lignes adjacentes
                 nbPerm++;
                 echangeMat(&mat[j], &mat[j+1]);
                 afficherMat(mat, n);
@@ -41,22 +41,25 @@ void triBulleMat(char mat[][20], int n){
 }
 
 //tri rapide de la matrice d'ordre alphebitique
+//la complexite de la fonction triRapideMat
 int nbcompMat = 0;
 int nbPermMat = 0;
 
 int partitionTRMat(char mat[][20], int bas, int haut){
+    //placer le dernier element comme pivot
     char pivot[20];
-    //initialiser le pivot par le dernier elemnt
     strcpy(pivot, mat[haut]);
     int i = bas - 1;
     for (int j = bas; j < haut; j++) {
         nbcompMat++;
+        //placer les elements inferieur a l'element de pivot a gauche
         if (strcmp(mat[j], pivot) < 0) {
             i++;
             echangeMat(mat[i], mat[j]);
             nbPermMat++;
         }
     }
+    //placer le pivot dans sa position correcte
     echangeMat(mat[i + 1], mat[haut]);
     nbPermMat++;
     return i + 1;
@@ -66,11 +69,11 @@ int partitionTRMat(char mat[][20], int bas, int haut){
 void triRapideMat(char mat[][20], int bas, int haut) {
     nbcompMat++;
     if (bas < haut) {
-        //premiere partition
+        //premiere partition et definir le pivot
         int pivot = partitionTRMat(mat, bas, haut);
-        //trier les ellement avant le pivot
+        //tri rapide des elements inferieurs a l'element de pivot
         triRapideMat(mat, bas, pivot - 1);
-        //trier les ellement deriere le pivot
+        //tri rapide des elements superieurs a l'element de pivot
         triRapideMat(mat, pivot + 1, haut);
         afficherMat(mat, haut + 1);
     }
