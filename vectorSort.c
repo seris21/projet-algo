@@ -23,14 +23,17 @@ void triParSelection (int T[], int Taille) {
     int i, j, min;
     int nbComp = 0;
     int nbPerm = 0;
+
     for (i = 0; i < Taille; i++) {
         min = i;
         for (j = i + 1; j < Taille; j++) {
             nbComp++;
+            //trouver le plus petit element
             if (T[j] < T[min]) {
                 min = j;
             }
         }
+        //placer cet element dans la position correcte
         echange(&T[min], &T[i]);
         nbPerm++;
         affichage(T, Taille);
@@ -47,11 +50,13 @@ void triParBulle (int T[], int Taille) {
     for (i = 0; i < Taille; i++) {
         for (j = 0; j < Taille-i-1; j++) {
             nbComp++;
+            //comparision de 2 elements adjacents
             if (T[j] > T[j+1]) {
                 echange(&T[j], &T[j+1]);
                 nbPerm++;
             }
-        }affichage(T, Taille);
+        }
+        affichage(T, Taille);
     }
     printf("le nombre de comparaison:%d\n ", nbComp);
     printf("le nombre de permutation:%d\n ", nbPerm);
@@ -62,15 +67,19 @@ void triParInsertion (int T[], int Taille) {
     int i, j, temp;
     int nbComp = 0;
     int nbPerm = 0;
+    //on commance par le 2eme element du tableau
     for (i = 1; i < Taille; i++) {
         temp = T[i];
         j = i - 1;
         nbComp++;
+        //positioner l'element dans la position correcte
         while (j >= 0 && T[j] > temp) {
+            //le decalage des element avant l'element T[i]
             T[j + 1] = T[j];
             nbPerm++;
             j = j - 1;
         }
+        //positioner l'element temp dans sa position exact dans le tableau
         T[j + 1] = temp;
         nbPerm++;
         affichage(T, Taille);
@@ -85,10 +94,12 @@ int nbCompTR = 0;
 int nbPermTR = 0;
 
 int partitionTR(int T[], int bas, int haut){
+    //placer le dernier element comme pivot
     int pivot = T[haut];
     int i = (bas - 1);
     for (int j = bas; j < haut; j++){
         nbCompTR++;
+        //placer les elements inferieur a l'element de pivot a gauche
         if(T[j] <= pivot){
             i++;
             echange(&T[i], &T[j]);
@@ -103,8 +114,11 @@ int partitionTR(int T[], int bas, int haut){
 void triRapide(int T[], int bas, int haut){
     nbCompTR++;
     if(bas < haut){
+        //definir le pivot
         int pivot = partitionTR(T, bas, haut);
+        //tri rapide des elements inferieurs a l'element de pivot
         triRapide(T, bas, pivot - 1);
+        //tri rapide des elements superieurs a l'element de pivot
         triRapide(T, pivot + 1, haut);
         affichage(T, haut + 1);
     }
@@ -219,7 +233,7 @@ int main(){
     int n;
     scanf("%d", &n);
     if (n <= 0) {
-        printf("La taille du tableau doit être positive.\n");
+        printf("La taille du tableau doit Ãªtre positive.\n");
         return 1;
     }
 
