@@ -38,6 +38,7 @@ void triParSelection (int T[], int Taille) {
         nbPerm++;
         affichage(T, Taille);
     }
+    //la complexite de la fonction triParSelection
     printf("le nombre de comparaison:%d\n ", nbComp);
     printf("le nombre de permutation:%d\n ", nbPerm);
 }
@@ -57,7 +58,8 @@ void triParBulle (int T[], int Taille) {
             }
         }
         affichage(T, Taille);
-    }
+
+    //la complexite de la fonction triParBulle
     printf("le nombre de comparaison:%d\n ", nbComp);
     printf("le nombre de permutation:%d\n ", nbPerm);
 }
@@ -90,6 +92,7 @@ void triParInsertion (int T[], int Taille) {
 
 
 //tri rapide
+//la complexite de la fonction triRapide
 int nbCompTR = 0;
 int nbPermTR = 0;
 
@@ -106,6 +109,7 @@ int partitionTR(int T[], int bas, int haut){
             nbPermTR++;
         }
     }
+    //placer le pivot dans sa position correcte
     echange(&T[i+1], &T[haut]);
     nbPermTR++;
     return(i+1);
@@ -114,7 +118,7 @@ int partitionTR(int T[], int bas, int haut){
 void triRapide(int T[], int bas, int haut){
     nbCompTR++;
     if(bas < haut){
-        //definir le pivot
+        //premiere partition et definir le pivot
         int pivot = partitionTR(T, bas, haut);
         //tri rapide des elements inferieurs a l'element de pivot
         triRapide(T, bas, pivot - 1);
@@ -125,6 +129,7 @@ void triRapide(int T[], int bas, int haut){
 }
 
 //tri  par fusion
+//la complexite de la fonction tri par fusion
 int nbCompF = 0;
 int nbPermF = 0;
 
@@ -196,6 +201,7 @@ void triParFusion(int T[], int Taille) {
 
 
 //tri peigne
+//la complexite de la fonction triPeigne
 int nbCompP = 0;
 int nbPermP = 0;
 
