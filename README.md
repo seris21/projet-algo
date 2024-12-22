@@ -7,4 +7,3 @@ Implémentation and analysis of compexities of sorting algorithms "
 |:----------:|:------:|---------|:--:|:------------:|
 |   Halimi   |  anes  |    C    |  2 | 232331397507 |
 | boukezzata |  nihad |    C    |  2 | 232331425917 |
-|            |        |         |    |              |
