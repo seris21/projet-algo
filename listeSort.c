@@ -1,75 +1,82 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-typedef struct list{
-    char mot[20];
+typedef struct list {
+    char mot[100];
     struct list* svt;
-}list;
+} list;
 
-void afficher(list* L){
-    list* temp = L;
-    printf("Les elements du liste sont :\n");
-    while(temp != NULL){
-        printf("%s\n", temp->mot);
-        temp = temp->svt;
-    }
 
+void inserer(list** L, char* new_mot) { 
+    list* newNoeud = (list*)malloc(sizeof(list)); 
+    strcpy(newNoeud->mot, new_mot); 
+    newNoeud->svt = (*L); 
+    (*L) = newNoeud;
 }
 
-struct liste* creerListe(char info[]){
-    list* newListe = (list*)malloc(sizeof(list));
-    strcpy(newListe->mot, info);
-    newListe->svt = NULL;
-    return newListe;
-};
+void afficherListe(list* L) {
+    while (L != NULL) {
+        printf("%s ", L->mot);
+        L = L->svt;
+    }
+    printf("\n");
+}
 
-//tri par bulle
-void triBullelist(list* L){
+void bullelist(list* L)
+{
     char swap[100];
     list* p;
     list* p2;
-    if (L == NULL){
+    if (L == NULL)
+    {
         printf("la list est vide");
         return;
     }
 
     int nbComp = 0;
-    int nbPerm = 0;
+    int  nbPerm = 0;
     int verification = 1;
-    while (verification){
+    while (verification)
+    {
         p = L;
-        verification = 0;
         nbComp++;
-        while (p->svt != NULL){
+        verification = 0;
+        while (p->svt != NULL)
+        {
             p2 = p->svt;
             nbComp++;
-            if (strcmp(p->mot, p2->mot) > 0){
+            if (strcmp(p->mot, p2->mot) > 0)
+            {
                 verification = 1;
                 strcpy(swap, p->mot);
                 strcpy(p->mot, p2->mot);
-                nbPerm++;
                 strcpy(p2->mot, swap);
-                afficher(L);
+                nbPerm++;
             }
             p = p->svt;
         }
     }
-    printf("le nombre de comparaison:%d\n ", nbComp);
-    printf("le nombre de permutation:%d\n ", nbPerm);
+    printf("le nombre de comparaison: %d\n ", nbComp);
+    printf("le nombre de permutation: %d\n ", nbPerm);
 
 }
-// tri par insertion
-void triInsertionlist(list* L){
+
+void insertionlist(list* L)
+{
     list* p = L;
     list* p2;
     char swap[100];
     int nbComp = 0;
     int nbPerm = 0;
-    while (p != NULL){
+    while (p != NULL)
+    {
         p2 = p;
-        while (p2->svt != NULL){
+        while (p2->svt != NULL)
+        {
             nbComp++;
-            if (strcmp(p->mot, p2->svt->mot) > 0){
+            if (strcmp(p->mot, p2->svt->mot) > 0)
+            {
                 strcpy(swap, p->mot);
                 strcpy(p->mot, p2->svt->mot);
                 strcpy(p2->svt->mot, swap);
@@ -78,24 +85,26 @@ void triInsertionlist(list* L){
             p2 = p2->svt;
         }
         p = p->svt;
-        afficher(L);
     }
-    printf("le nombre de comparaison:%d\n", nbComp);
-    printf("le nombre de permutation:%d\n", nbPerm);
+    printf("le nombre de comparaison: %d\n", nbComp);
+    printf("le nombre de permutation: %d\n", nbPerm);
 }
 
+int main() {
+    struct list* liste = NULL;
+    inserer(&liste, "pomme");
+    inserer(&liste, "orange");
+    inserer(&liste, "banane");
+    inserer(&liste, "kiwi");
+    inserer(&liste, "mangue");
 
-int main(){
-    struct list* L = creerListe("hi");
-    struct list* L1 = creerListe("alger");
-    struct list* L2 = creerListe("name");
-    L->svt = L1;
-    L1->svt = L2;
-    printf("le tri par bulle de la liste dans lordre alphabetique des mots\n");
-    triBullelist(L);
+    printf("Liste avant le tri :\n");
+    afficherListe(liste);
 
-    printf("le tri par insertion de la liste dans lordre alphabetique des mots\n");
-    triInsertionlist(L);
+    bullelist(liste);
 
-return 0;
+    printf("Liste après le tri :\n");
+    afficherListe(liste);
+
+    return 0;
 }

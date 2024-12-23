@@ -1,212 +1,139 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
+// fonction pour permute entre deux elment d'un vecteur
+void permuter(int *a, int *b) {
+    int tmp;
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
+}  
 
-
-void echange(int *x, int *y){
-    int temp = *x;
-    *x = *y;
-    *y = temp;
-}
-
-void affichage(int T[], int taille){
-    printf("Les elements du tableau sont :\n");
-    for (int j = 0; j < taille; j++) {
-        printf("%d ", T[j]);
-    }
-    printf("\n");
-}
-
-//tri par selection
+// fonction tri par selection d'un vecteur
 void triParSelection (int T[], int Taille) {
     int i, j, min;
-    int nbComp = 0;
-    int nbPerm = 0;
+
     for (i = 0; i < Taille; i++) {
-        min = i;
+    min = i;
         for (j = i + 1; j < Taille; j++) {
-            nbComp++;
-            if (T[j] < T[min]) {
-                min = j;
-            }
+            if (T[j] < T[min]) { min = j;}                        
         }
-        echange(&T[min], &T[i]);
-        nbPerm++;
-        affichage(T, Taille);
-    }
-    printf("le nombre de comparaison:%d\n ", nbComp);
-    printf("le nombre de permutation:%d\n ", nbPerm);
+    permuter(&T[min], &T[i]);   
+    }   
 }
 
-//tri par bulle
+// fonction tri par Bulle d'un vecteur
 void triParBulle (int T[], int Taille) {
     int i, j;
-    int nbComp = 0;
-    int nbPerm = 0;
+
     for (i = 0; i < Taille; i++) {
+        
         for (j = 0; j < Taille-i-1; j++) {
-            nbComp++;
+            
             if (T[j] > T[j+1]) {
-                echange(&T[j], &T[j+1]);
-                nbPerm++;
-            }
-        }affichage(T, Taille);
-    }
-    printf("le nombre de comparaison:%d\n ", nbComp);
-    printf("le nombre de permutation:%d\n ", nbPerm);
+                permuter(T[j], T[j+1]);   
+            }    
+        }
+    }           
 }
 
-//tri par insertion
+// fonction tri par insertion d'un vecteur
 void triParInsertion (int T[], int Taille) {
     int i, j, temp;
-    int nbComp = 0;
-    int nbPerm = 0;
-    for (i = 1; i < Taille; i++) {
+
+    for (i = 1; i < Taille; i++) { 
         temp = T[i];
         j = i - 1;
-        nbComp++;
-        while (j >= 0 && T[j] > temp) {
-            T[j + 1] = T[j];
-            nbPerm++;
+        while (j >= 0 && T[j] > temp) { 
+            T[j + 1] = T[j]; 
             j = j - 1;
         }
         T[j + 1] = temp;
-        nbPerm++;
-        affichage(T, Taille);
-    }
-    printf("le nombre de comparaison:%d\n ", nbComp);
-    printf("le nombre de permutation:%d\n ", nbPerm);
-}
-
-
-//tri rapide
-int nbCompTR = 0;
-int nbPermTR = 0;
-
-int partitionTR(int T[], int bas, int haut){
-    int pivot = T[haut];
-    int i = (bas - 1);
-    for (int j = bas; j < haut; j++){
-        nbCompTR++;
-        if(T[j] <= pivot){
-            i++;
-            echange(&T[i], &T[j]);
-            nbPermTR++;
-        }
-    }
-    echange(&T[i+1], &T[haut]);
-    nbPermTR++;
-    return(i+1);
-}
-
-void triRapide(int T[], int bas, int haut){
-    nbCompTR++;
-    if(bas < haut){
-        int pivot = partitionTR(T, bas, haut);
-        triRapide(T, bas, pivot - 1);
-        triRapide(T, pivot + 1, haut);
-        affichage(T, haut + 1);
     }
 }
 
-//tri  par fusion
-int nbCompF = 0;
-int nbPermF = 0;
-
+// fonction qui fusionne deux sous-vecteur 
 void fusion(int T[], int gauche, int milieu, int droite) {
     int i, j, k;
     int n1 = milieu - gauche + 1;
     int n2 = droite - milieu;
+
+   
     int G[n1], D[n2];
-    for (i = 0; i < n1; i++){
-        nbPermF++;
+
+    
+    for (i = 0; i < n1; i++)
         G[i] = T[gauche + i];
-    }
-    for (j = 0; j < n2; j++){
-        nbPermF++;
+    for (j = 0; j < n2; j++)
         D[j] = T[milieu + 1 + j];
-    }
-    i = 0;
-    j = 0;
-    k = gauche;
-    nbCompF++;
+
+    
+    i = 0; 
+    j = 0; 
+    k = gauche; 
     while (i < n1 && j < n2) {
-        nbCompF++;
         if (G[i] <= D[j]) {
-            nbPermF++;
             T[k] = G[i];
             i++;
         } else {
-            nbPermF++;
             T[k] = D[j];
             j++;
         }
         k++;
     }
-    nbCompF++;
+   
     while (i < n1) {
-        nbPermF++;
         T[k] = G[i];
         i++;
         k++;
     }
-    nbCompF++;
+    
     while (j < n2) {
-        nbPermF++;
         T[k] = D[j];
         j++;
         k++;
     }
 }
 
+// fonction recursive tri par fusion
 void triFusionTemp(int T[], int gauche, int droite) {
-    nbCompF++;
     if (gauche < droite) {
         int milieu = gauche + (droite - gauche) / 2;
 
         triFusionTemp(T, gauche, milieu);
         triFusionTemp(T, milieu + 1, droite);
-        affichage(T, droite+1);
-        fusion(T, gauche, milieu, droite);
-        affichage(T, droite+1);
 
+        fusion(T, gauche, milieu, droite);
     }
 }
 
+// fonction tri par fusion d'un vecteur
 void triParFusion(int T[], int Taille) {
-
     triFusionTemp(T, 0, Taille - 1);
 }
 
-
-
-//tri peigne
-int nbCompP = 0;
-int nbPermP = 0;
-
+// fonction qui permet d'avoir le prochaine écart le plus optimisé entre deux element du vecteur
 int prochainEcart(int ecart) {
     ecart = (ecart * 10) / 13;
-    nbCompP++;
     if (ecart < 1) {
         return 1;
     }
     return ecart;
 }
 
-void triPeigne(int T[], int taille) {
-    int ecart = taille;
+// fonction tri par peigne d'un vecteur
+void triPeigne(int T[], int Taille) {
+    int ecart = Taille; 
     int swapped = 1;
-    nbCompP++;
+    
     while (ecart != 1 || swapped) {
-        ecart = prochainEcart(ecart);
+        ecart = prochainEcart(ecart); 
         swapped = 0;
-        affichage(T, taille);
-        for (int i = 0; i < taille - ecart; i++) {
-            nbCompP++;
+
+        
+        for (int i = 0; i < Taille - ecart; i++) {
             if (T[i] > T[i + ecart]) {
-                nbPermP++;
-                echange(&T[i], &T[i + ecart]);
+                permuter(&T[i], &T[i + ecart]);                
                 swapped = 1;
             }
         }
@@ -214,50 +141,66 @@ void triPeigne(int T[], int taille) {
 }
 
 
-int main(){
-    printf("Entrez la taille du tableau : ");
-    int n;
-    scanf("%d", &n);
-    if (n <= 0) {
-        printf("La taille du tableau doit �tre positive.\n");
-        return 1;
+int main() {
+    int n, d;
+    printf("Entre La Taille Du Tableau :");
+    scanf("%d",&n);
+    int Tab[n];
+    for (int i=0; i<n; i++) {
+        printf("Entre T[%d] :", i);
+        scanf("%d",&Tab[i]);
     }
+    
+    printf("\n"); printf("\n");
 
 
-    int T[n];
-    printf("Entrez les elements du tableau :\n");
+    printf("Tableau avant le tri :\n");
     for (int i = 0; i < n; i++) {
-        printf("Element %d : ", i + 1);
-        scanf("%d", &T[i]);
+        printf("%d ", Tab[i]);
     }
-    printf("le tri rapide de tableau\n");
-    triRapide(T, 0, n - 1);
-    printf("le nombre de comparaison:%d\n ", nbCompTR);
-    printf("le nombre de permutation:%d\n ", nbPermTR);
+    printf("\n"); printf("\n");
 
-    printf("le tri par selection de tableau\n");
-    triParSelection(T, n);
+    printf("LES MODE DE TRI \n:");
+    printf("1. tri par selection \n");
+    printf("2. tri par Bulle \n");
+    printf("3. tri par insertion \n");
+    printf("4. tri par rapide \n");
+    printf("5. tri par fusion \n");
+    printf("6. tri par peigne \n");
+    printf("\n");
+    printf("Choisie un mode :");
+    scanf("%d",&d);
 
-    printf("le par bulle de tableau\n");
-    triParBulle(T, n);
-
-    printf("le tri par insertion de tableau\n");
-    triParInsertion(T, n);
-
-    printf("le tri par fusion de tableau\n");
-    triParFusion(T, n);
-    printf("le nombre de comparaison:%d\n ", nbCompF);
-    printf("le nombre de permutation:%d\n ", nbPermF);
-
-    printf("le peige rapide de tableau\n");
-    triPeigne(T, n);
-    printf("le nombre de comparaison:%d\n ", nbCompP);
-    printf("le nombre de permutation:%d\n ", nbPermP);
-
-
-    return 0;
+    switch (d) {
+  case 1:
+    triParSelection(Tab, n);
+    break;
+  case 2:
+    triParBulle(Tab, n);
+    break;
+  case 3:
+    triParInsertion(Tab, n);
+    break;
+  case 4:
+    triParBulle(Tab, n);
+    break;  
+  case 5:
+    triParFusion(Tab, n);
+    break;
+  case 6:
+    triPeigne(Tab, n);
+    break;
+  
+  
+  default:
+    printf("error");
 }
 
 
-
-
+    printf("Tableau apres le tri :\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", Tab[i]);
+    }
+    printf("\n");
+    return 0;
+}
