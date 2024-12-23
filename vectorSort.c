@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <string.h>
 
+int nbComp = 0;
+int nbPerm = 0;
+
 // fonction pour permute entre deux elment d'un vecteur
 void permuter(int *a, int *b) {
     int tmp;
     tmp = *a;
     *a = *b;
     *b = tmp;
+    nbPerm++;
 }  
 
 // fonction tri par selection d'un vecteur
@@ -14,8 +18,9 @@ void triParSelection (int T[], int Taille) {
     int i, j, min;
 
     for (i = 0; i < Taille; i++) {
-    min = i;
+        min = i;
         for (j = i + 1; j < Taille; j++) {
+            nbComp++;
             if (T[j] < T[min]) { min = j;}                        
         }
     permuter(&T[min], &T[i]);   
@@ -29,7 +34,7 @@ void triParBulle (int T[], int Taille) {
     for (i = 0; i < Taille; i++) {
         
         for (j = 0; j < Taille-i-1; j++) {
-            
+            nbComp++;
             if (T[j] > T[j+1]) {
                 permuter(T[j], T[j+1]);   
             }    
@@ -45,8 +50,10 @@ void triParInsertion (int T[], int Taille) {
         temp = T[i];
         j = i - 1;
         while (j >= 0 && T[j] > temp) { 
+            nbComp++;
             T[j + 1] = T[j]; 
             j = j - 1;
+            nbPerm++;
         }
         T[j + 1] = temp;
     }
@@ -72,6 +79,7 @@ void fusion(int T[], int gauche, int milieu, int droite) {
     j = 0; 
     k = gauche; 
     while (i < n1 && j < n2) {
+        nbComp++;
         if (G[i] <= D[j]) {
             T[k] = G[i];
             i++;
@@ -132,6 +140,7 @@ void triPeigne(int T[], int Taille) {
 
         
         for (int i = 0; i < Taille - ecart; i++) {
+            nbComp++;
             if (T[i] > T[i + ecart]) {
                 permuter(&T[i], &T[i + ecart]);                
                 swapped = 1;
@@ -202,5 +211,11 @@ int main() {
         printf("%d ", Tab[i]);
     }
     printf("\n");
+    printf("\n");
+
+
+    printf("Nombre de comparaisons : %d\n", nbComp);
+    printf("Nombre de permutations : %d\n", nbPerm);
+
     return 0;
 }

@@ -2,17 +2,22 @@
 #include <stdlib.h>
 #include <string.h>
 
+int nbComp = 0;
+int nbPerm = 0;
+
 // fonction pour permute entre deux chaine de caracteres
 void permuterChar(char **str1, char **str2) {
     char *temp = *str1;
     *str1 = *str2;
     *str2 = temp;
+    nbPerm++;
 }
 
 // fonction tri par Bulle d'une matrice
 void triParBulles(char *T[], int taille) {
     for (int i = 0; i < taille - 1; i++) {
         for (int j = 0; j < taille - i - 1; j++) {
+            nbComp++;
             if (strcmp(T[j], T[j + 1]) > 0) {
                 permuterChar(&T[j], &T[j + 1]);
             }
@@ -39,6 +44,7 @@ void fusion(char *T[], int gauche, int milieu, int droite) {
     j = 0;
     k = gauche;
     while (i < n1 && j < n2) {
+        nbComp++;
         if (strcmp(G[i], D[j]) <= 0) {
             T[k] = G[i];
             i++;
@@ -87,13 +93,13 @@ int main() {
     int taille = sizeof(T) / sizeof(T[0]);
     int d;
 
-    printf("T avant le tri :\n");
+    printf("Liste avant le tri :\n");
     for (int i = 0; i < taille; i++) {
         printf("%s\n", T[i]);
     }
-    printf("\n"); printf("\n");
+    printf("\n");
 
-    printf("LES MODE DE TRI \n:");
+    printf("LES MODE DE TRI :\n");
     printf("1. tri par bulle\n");
     printf("2. tri par fusion\n");
     printf("Choisie un mode :");
@@ -109,11 +115,14 @@ int main() {
   default:
     printf("error");
 }  
-
-    printf("T après le tri :\n");
+    printf("\n");
+    printf("Liste apres le tri :\n");
     for (int i = 0; i < taille; i++) {
         printf("%s\n", T[i]);
     }
+    printf("\n");
+    printf("\nNombre de comparaisons : %d\n", nbComp);
+    printf("Nombre de permutations : %d\n", nbPerm);
 
     return 0;
 }

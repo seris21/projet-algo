@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+int nbComp = 0;
+int nbPerm = 0;
+
 typedef struct list {
     char mot[100];
     struct list* svt;
@@ -23,7 +26,7 @@ void afficherListe(list* L) {
     printf("\n");
 }
 
-void bullelist(list* L)
+void triParBulle(list* L)
 {
     char swap[100];
     list* p;
@@ -34,8 +37,6 @@ void bullelist(list* L)
         return;
     }
 
-    int nbComp = 0;
-    int  nbPerm = 0;
     int verification = 1;
     while (verification)
     {
@@ -57,18 +58,13 @@ void bullelist(list* L)
             p = p->svt;
         }
     }
-    printf("le nombre de comparaison: %d\n ", nbComp);
-    printf("le nombre de permutation: %d\n ", nbPerm);
-
 }
 
-void insertionlist(list* L)
+void triParInsertion(list* L)
 {
     list* p = L;
     list* p2;
     char swap[100];
-    int nbComp = 0;
-    int nbPerm = 0;
     while (p != NULL)
     {
         p2 = p;
@@ -86,11 +82,10 @@ void insertionlist(list* L)
         }
         p = p->svt;
     }
-    printf("le nombre de comparaison: %d\n", nbComp);
-    printf("le nombre de permutation: %d\n", nbPerm);
 }
 
 int main() {
+    int d;
     struct list* liste = NULL;
     inserer(&liste, "pomme");
     inserer(&liste, "orange");
@@ -101,10 +96,29 @@ int main() {
     printf("Liste avant le tri :\n");
     afficherListe(liste);
 
-    bullelist(liste);
+    printf("LES MODE DE TRI :\n");
+    printf("1. tri par bulle\n");
+    printf("2. tri par Insertion\n");
+    printf("Choisie un mode :");
+    scanf("%d", &d);
+    
+switch (d) {
+  case 1:
+    triParBulle(liste);
+    break;
+  case 2:
+    triParInsertion(liste);
+    break;
+  default:
+    printf("error");
+}
+    
 
-    printf("Liste après le tri :\n");
-    afficherListe(liste);
+    printf("Liste apres le tri :\n");
+    printf("\n");
+    printf("le nombre de comparaison: %d\n ", nbComp);
+    printf("le nombre de permutation: %d\n ", nbPerm);
+
 
     return 0;
 }
